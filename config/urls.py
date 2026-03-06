@@ -27,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include('apps.users.urls')),
     path('api/jd/', include('apps.job_descriptions.urls')),
+    path('api/interviews/', include('apps.interviews.urls')),
 
     # JWT Auth Endpoints
     path('api/auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
