@@ -20,10 +20,48 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
+# class User(AbstractUser):
+#     username = None  # remove username completely
+
+#     email = models.EmailField(unique=True)
+
+#     PLAN_CHOICES = [
+#         ('FREE', 'Free'),
+#         ('SINGLE', 'Single'),
+#         ('PRO', 'Pro'),
+#         ('PREMIUM', 'Premium'),
+#     ]
+
+#     plan = models.CharField(
+#         max_length=20,
+#         choices=PLAN_CHOICES,
+#         default='FREE'
+#     )
+
+#     interviews_remaining = models.IntegerField(default=1)
+
+#     billing_cycle = models.CharField(
+#         max_length=10,
+#         choices=[('MONTHLY', 'Monthly'), ('YEARLY', 'Yearly')],
+#         default='MONTHLY'
+#     )
+
+#     USERNAME_FIELD = 'email'
+#     REQUIRED_FIELDS = []
+
+#     objects = UserManager()
+
+#     def __str__(self):
+#         return self.email
+
 class User(AbstractUser):
-    username = None  # remove username completely
+
+    username = None  # keep username removed
 
     email = models.EmailField(unique=True)
+
+    first_name = models.CharField(max_length=100, blank=True)
+    last_name = models.CharField(max_length=100, blank=True)
 
     PLAN_CHOICES = [
         ('FREE', 'Free'),

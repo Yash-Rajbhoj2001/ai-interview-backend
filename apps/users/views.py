@@ -18,10 +18,38 @@ def me(request):
         "interviews_remaining": user.interviews_remaining,
     })
 
+# @api_view(['POST'])
+# def register(request):
+#     serializer = RegisterSerializer(data=request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
+#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['POST'])
 def register(request):
-    serializer = RegisterSerializer(data=request.data)
+
+    full_name = request.data.get("name")
+    email = request.data.get("email")
+    password = request.data.get("password")
+
+    first_name = ""
+    last_name = ""
+
+    if full_name:
+        parts = full_name.split(" ")
+        first_name = parts[0]
+        last_name = " ".join(parts[1:]) if len(parts) > 1 else ""
+
+    serializer = RegisterSerializer(data={
+        "email": email,
+        "password": password,
+        "first_name": first_name,
+        "last_name": last_name
+    })
+
     if serializer.is_valid():
         serializer.save()
         return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
+
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
