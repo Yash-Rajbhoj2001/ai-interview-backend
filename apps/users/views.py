@@ -12,7 +12,10 @@ def me(request):
     user = request.user
     return Response({
         "id": user.id,
-        "username": user.username,
+        # "username": user.username,
+        "full_name" : user.full_name,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
         "email": user.email,
         "plan": user.plan,
         "interviews_remaining": user.interviews_remaining,
@@ -32,6 +35,13 @@ def register(request):
     full_name = request.data.get("name")
     email = request.data.get("email")
     password = request.data.get("password")
+
+     # Validate required fields
+    if not email or not password:
+        return Response(
+            {"error": "Email and password are required"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
     first_name = ""
     last_name = ""
