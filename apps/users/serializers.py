@@ -7,29 +7,32 @@ from .models import User
 class RegisterSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(write_only=True)
-    name = serializers.CharField(write_only=True)
+    # name = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
-        fields = ["name", "email", "password"]
+        # fields = ["name", "email", "password"]
+        fields = ["email", "password", "first_name", "last_name"]
 
     def create(self, validated_data):
 
-        full_name = validated_data.pop("name")
+        # full_name = validated_data.pop("name")
 
-        first_name = ""
-        last_name = ""
+        # first_name = ""
+        # last_name = ""
 
-        if full_name:
-            parts = full_name.split(" ")
-            first_name = parts[0]
-            last_name = " ".join(parts[1:]) if len(parts) > 1 else ""
+        # if full_name:
+        #     parts = full_name.split(" ")
+        #     first_name = parts[0]
+        #     last_name = " ".join(parts[1:]) if len(parts) > 1 else ""
 
         user = User.objects.create_user(
             email=validated_data["email"],
             password=validated_data["password"],
-            first_name=first_name,
-            last_name=last_name
+            # first_name=first_name,
+            # last_name=last_name
+            first_name=validated_data.get("first_name", ""),
+            last_name=validated_data.get("last_name", "")
         )
 
         return user
